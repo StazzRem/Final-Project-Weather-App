@@ -98,28 +98,41 @@ function defaultCity(city) {
 
 defaultCity("Amsterdam");
 
-function useNavBar(event, cityName) {
+function useNavBar(event, cityName, imgUrl) {
   event.preventDefault();
   let cityApi = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
   axios.get(`${cityApi}`).then(useData);
+  document.getElementById(
+    "background"
+  ).style.backgroundImage = `url(${imgUrl})`;
 }
 
 document
   .querySelector("#ams-link")
-  .addEventListener("click", (event) => useNavBar(event, "Amsterdam"));
+  .addEventListener("click", (event) =>
+    useNavBar(event, "Amsterdam", "images/Amsterdam.jpg")
+  );
 
 document
   .querySelector("#ldn-link")
-  .addEventListener("click", (event) => useNavBar(event, "London"));
+  .addEventListener("click", (event) =>
+    useNavBar(event, "London", "images/London-1.jpg")
+  );
 
 document
   .querySelector("#tky-link")
-  .addEventListener("click", (event) => useNavBar(event, "Tokyo"));
+  .addEventListener("click", (event) =>
+    useNavBar(event, "Tokyo", "images/Tokyo-1.jpg")
+  );
 
 document
   .querySelector("#syd-link")
-  .addEventListener("click", (event) => useNavBar(event, "Sydney"));
+  .addEventListener("click", (event) =>
+    useNavBar(event, "Sydney", "images/Sydney.jpg")
+  );
 
 document
   .querySelector("#nyk-link")
-  .addEventListener("click", (event) => useNavBar(event, "New York"));
+  .addEventListener("click", (event) =>
+    useNavBar(event, "New York", "images/New-York.jpg")
+  );
