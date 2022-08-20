@@ -97,3 +97,29 @@ function defaultCity(city) {
 }
 
 defaultCity("Amsterdam");
+
+function useNavBar(event, cityName) {
+  event.preventDefault();
+  let cityApi = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
+  axios.get(`${cityApi}`).then(useData);
+}
+
+document
+  .querySelector("#ams-link")
+  .addEventListener("click", (event) => useNavBar(event, "Amsterdam"));
+
+document
+  .querySelector("#ldn-link")
+  .addEventListener("click", (event) => useNavBar(event, "London"));
+
+document
+  .querySelector("#tky-link")
+  .addEventListener("click", (event) => useNavBar(event, "Tokyo"));
+
+document
+  .querySelector("#syd-link")
+  .addEventListener("click", (event) => useNavBar(event, "Sydney"));
+
+document
+  .querySelector("#nyk-link")
+  .addEventListener("click", (event) => useNavBar(event, "New York"));
