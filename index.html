@@ -10,6 +10,11 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+
+    <script
+      src="https://kit.fontawesome.com/065b8ebd62.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" type="text/css" href="src/styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>MyWeather App</title>
@@ -19,13 +24,13 @@
       <nav class="navbar navbar-light bg-transparent">
         <div class="container-fluid">
           <form id="city-search" autocomplete="off">
+            <input type="button" value="&#9906;" id="local-button" />
             <input
               type="search"
               placeholder="Enter city name"
               id="search-bar"
             />
             <input type="submit" value="Search" id="search-button" />
-            <input type="button" value="&#9906;" id="local-button" />
           </form>
           <ul class="nav justify-content-end">
             <li class="nav-item">
@@ -46,18 +51,26 @@
           </ul>
         </div>
       </nav>
-      <h1>Amsterdam</h1>
-      <h2>Saturday, 20th August</h2>
-      <div class="row">
-        <div class="col-6">
-          <img src="images/sun-cloud.png" width="200px" />
-        </div>
-        <div class="col-6">
-          <ul>
-            <li id="current-temp">28°C</li>
-            <li>Wind: <span id="wind-speed">2</span>km/h</li>
-            <li>Humidity: <span id="humid-percent">80</span>%</li>
-          </ul>
+      <div id="main-weather-display">
+        <h1>Amsterdam</h1>
+        <h2>Saturday, 20th August</h2>
+        <div class="row">
+          <div class="col-8">
+            <img src="images/sun-cloud.png" width="200px" />
+          </div>
+          <div class="col-4">
+            <ul>
+              <li id="current-temp">28°C</li>
+              <li>
+                <i class="fa-solid fa-wind"></i> Wind:
+                <span id="wind-speed">2</span>km/h
+              </li>
+              <li>
+                <i class="fa-solid fa-droplet"></i> Humidity:
+                <span id="humid-percent">80</span>%
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
