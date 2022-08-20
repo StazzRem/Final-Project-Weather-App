@@ -10,24 +10,39 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <script
+      src="https://kit.fontawesome.com/065b8ebd62.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" type="text/css" href="src/styles.css" />
     <title>MyWeather App</title>
   </head>
   <body>
     <div class="container">
-      <h1></h1>
-      <h2></h2>
+      <form id="city-search" autocomplete="off">
+        <input type="search" placeholder="Enter city name" id="search-bar" />
+        <input type="submit" value="Search" id="search-button" />
+        <input type="button" value="&#9906;" id="local-button" />
+      </form>
+      <h1>Amsterdam</h1>
+      <h2>Saturday, 20th August</h2>
     </div>
     <footer>
       This page was built by
-      <a href="https://www.linkedin.com/in/stacey-remnant-79338122a/"
+      <a
+        href="https://www.linkedin.com/in/stacey-remnant-79338122a/"
+        target="_blank"
         >Stacey Remnant</a
       ><br />
-      <a href="https://github.com/StazzRem/">GitHub Open Source</a> |
-      <a href="https://www.graphberry.com/category/icons"
+      <a href="https://github.com/StazzRem/" target="_blank"
+        >GitHub Open Source</a
+      >
+      |
+      <a href="https://www.graphberry.com/category/icons" target="_blank"
         >Icons by Graphberry</a
       >
-      | <a href="https://www.netlify.com/">Hosted by Netflify</a>
+      |
+      <a href="https://www.netlify.com/" target="_blank">Hosted by Netflify</a>
     </footer>
     <script src="src/index.js"></script>
   </body>
