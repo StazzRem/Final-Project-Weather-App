@@ -63,7 +63,7 @@ function useData(response) {
 
   let weatherIcon = document.querySelector("#weather-icon");
   if (response.data.clouds.all === 0) {
-    weatherIcon.innerHTML = `<img src="images/sun.png" width="120px">`;
+    weatherIcon.innerHTML = `<img src="images/sun-1.png" width="180px">`;
   } else if (response.data.clouds.all < 70) {
     weatherIcon.innerHTML = `<img src="images/sun-cloud.png" width="200px">`;
   } else {
@@ -103,36 +103,36 @@ function useNavBar(event, cityName, imgUrl) {
   let cityApi = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
   axios.get(`${cityApi}`).then(useData);
   document.getElementById(
-    "background"
+    "main-container"
   ).style.backgroundImage = `url(${imgUrl})`;
 }
 
 document
   .querySelector("#ams-link")
   .addEventListener("click", (event) =>
-    useNavBar(event, "Amsterdam", "images/Amsterdam.jpg")
+    useNavBar(event, "Amsterdam", "images/Amsterdam.png")
   );
 
 document
   .querySelector("#ldn-link")
   .addEventListener("click", (event) =>
-    useNavBar(event, "London", "images/London-1.jpg")
+    useNavBar(event, "London", "images/London-1.png")
   );
 
 document
   .querySelector("#tky-link")
   .addEventListener("click", (event) =>
-    useNavBar(event, "Tokyo", "images/Tokyo-1.jpg")
+    useNavBar(event, "Tokyo", "images/Tokyo-1.png")
   );
 
 document
   .querySelector("#syd-link")
   .addEventListener("click", (event) =>
-    useNavBar(event, "Sydney", "images/Sydney.jpg")
+    useNavBar(event, "Sydney", "images/Sydney.png")
   );
 
 document
   .querySelector("#nyk-link")
   .addEventListener("click", (event) =>
-    useNavBar(event, "New York", "images/New-York.jpg")
+    useNavBar(event, "New York", "images/New-York.png")
   );
