@@ -49,7 +49,7 @@ function usePosition(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-  axios.get(`${apiUrl}`).then(useData);
+  axios.get(apiUrl).then(useData);
 
   document.getElementById(
     "main-container"
@@ -64,7 +64,6 @@ let myLocationButton = document.querySelector("#local-button");
 myLocationButton.addEventListener("click", getPosition);
 
 function useData(response) {
-  // console.log(response.data);
   resetUnit();
   let city = document.querySelector("h1");
   city.innerHTML = response.data.name;
@@ -91,9 +90,19 @@ function useData(response) {
   if (response.data.clouds.all === 0) {
     weatherIcon.innerHTML = `<img src="images/sun-1.png" width="180px">`;
   } else if (response.data.clouds.all < 70) {
-    weatherIcon.innerHTML = `<img src="images/sun-cloud.png" width="200px">`;
+    if (response.data.weather[0].description.includes("rain")) {
+      weatherIcon.innerHTML = `<img src="images/sun-rain.png" width="200px">`;
+    } else {
+      weatherIcon.innerHTML = `<img src="images/sun-cloud.png" width="200px">`;
+    }
   } else {
-    weatherIcon.innerHTML = `<img src="images/cloud.png" width="200px">`;
+    if (response.data.weather[0].description === "moderate rain") {
+      weatherIcon.innerHTML = `<img src="images/rain2.png" width="200px">`;
+    } else if (response.data.weather[0].description === "light rain") {
+      weatherIcon.innerHTML = `<img src="images/rain3.png" width="200px">`;
+    } else {
+      weatherIcon.innerHTML = `<img src="images/cloud.png" width="200px">`;
+    }
   }
 
   let temp = document.querySelector(".temp-number");
@@ -128,7 +137,7 @@ function getCity(event) {
   event.preventDefault();
   let newCity = document.querySelector("#city-search");
   let cityApi = `https://api.openweathermap.org/data/2.5/weather?q=${newCity.value}&appid=${apiKey}&units=metric`;
-  axios.get(`${cityApi}`).then(useData);
+  axios.get(cityApi).then(useData);
   newCity.value = "";
   document.getElementById(
     "main-container"
@@ -140,7 +149,7 @@ citySearch.addEventListener("submit", getCity);
 
 function defaultCity(city) {
   let defaultUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-  axios.get(`${defaultUrl}`).then(useData);
+  axios.get(defaultUrl).then(useData);
 }
 
 defaultCity("Amsterdam");
@@ -149,7 +158,7 @@ function useNavBar(event, cityName, imgUrl) {
   event.preventDefault();
 
   let cityApi = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
-  axios.get(`${cityApi}`).then(useData);
+  axios.get(cityApi).then(useData);
   document.getElementById(
     "main-container"
   ).style.backgroundImage = `url(${imgUrl})`;
