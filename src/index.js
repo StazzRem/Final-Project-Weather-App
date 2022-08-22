@@ -121,22 +121,6 @@ function convertTemp() {
   }
 }
 
-/*
-function convertCelsius(event) {
-  event.preventDefault();
-  let temp = document.querySelector("h3 .temp");
-  let calcF = ((temp.innerHTML - 32) * 5) / 9;
-  temp.innerHTML = calcF;
-}
-
-function convertFahrenheit(event) {
-  event.preventDefault();
-  let temp = document.querySelector("h3 .temp");
-  let calcC = (temp.innerHTML * 9) / 5 + 32;
-  temp.innerHTML = calcC;
-}
-*/
-
 let tempSwitch = document.querySelector("#flexSwitchCheckDefault");
 tempSwitch.addEventListener("click", convertTemp);
 
