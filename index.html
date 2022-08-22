@@ -60,7 +60,22 @@
             </div>
             <div class="col-4">
               <ul>
-                <li id="current-temp">28°C</li>
+                <li id="current-temp">
+                  <span class="temp-number"></span
+                  ><span class="temp-unit">°C</span>
+                </li>
+                <div class="form-check form-switch" id="temp-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                  />
+                  <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >°F</label
+                  >
+                </div>
+
                 <li>
                   <i class="fa-solid fa-wind"></i> Wind:
                   <span id="wind-speed">2</span>km/h

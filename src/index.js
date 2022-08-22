@@ -72,8 +72,8 @@ function useData(response) {
     weatherIcon.innerHTML = `<img src="images/cloud.png" width="200px">`;
   }
 
-  let temp = document.querySelector("#current-temp");
-  temp.innerHTML = Math.round(response.data.main.temp) + "°C";
+  let temp = document.querySelector(".temp-number");
+  temp.innerHTML = Math.round(response.data.main.temp);
 
   let wind = document.querySelector("#wind-speed");
   wind.innerHTML = Math.round(response.data.wind.speed);
@@ -82,12 +82,49 @@ function useData(response) {
   humid.innerHTML = Math.round(response.data.main.humidity);
 }
 
+function convertTemp() {
+  let tempUnit = document.querySelector(".temp-unit");
+  let tempNumber = document.querySelector(".temp-number");
+  let degreeLabel = document.querySelector(".form-check-label");
+  if (tempUnit.innerHTML === "°C") {
+    tempNumber.innerHTML = Math.round((tempNumber.innerHTML * 9) / 5 + 32);
+    tempUnit.innerHTML = "°F";
+    degreeLabel.innerHTML = "°C";
+  } else {
+    tempNumber.innerHTML = Math.round(((tempNumber.innerHTML - 32) * 5) / 9);
+    tempUnit.innerHTML = "°C";
+    degreeLabel.innerHTML = "°F";
+  }
+}
+
+/*
+function convertCelsius(event) {
+  event.preventDefault();
+  let temp = document.querySelector("h3 .temp");
+  let calcF = ((temp.innerHTML - 32) * 5) / 9;
+  temp.innerHTML = calcF;
+}
+
+function convertFahrenheit(event) {
+  event.preventDefault();
+  let temp = document.querySelector("h3 .temp");
+  let calcC = (temp.innerHTML * 9) / 5 + 32;
+  temp.innerHTML = calcC;
+}
+*/
+
+let tempSwitch = document.querySelector("#flexSwitchCheckDefault");
+tempSwitch.addEventListener("click", convertTemp);
+
 function getCity(event) {
   event.preventDefault();
   let newCity = document.querySelector("#city-search");
   let cityApi = `https://api.openweathermap.org/data/2.5/weather?q=${newCity.value}&appid=${apiKey}&units=metric`;
   axios.get(`${cityApi}`).then(useData);
   newCity.value = "";
+  document.getElementById(
+    "main-container"
+  ).style.backgroundImage = `url(./images/sun-clouds.png)`;
 }
 
 let citySearch = document.querySelector("#search-bar");
