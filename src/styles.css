@@ -51,12 +51,15 @@ li {
 #current-temp {
   font-size: 100px;
   font-weight: bold;
-  margin-top: -70px;
+  margin-top: -50px;
 }
 #temp-switch {
   text-align: right;
   font-size: 15px;
   float: right;
+}
+#weather-desc {
+  margin-top: -20px;
 }
 footer {
   text-align: center;

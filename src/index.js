@@ -31,8 +31,13 @@ let day = days[today.getDay()];
 let date = today.getDate();
 let month = months[today.getMonth()];
 
+let hour = today.getHours();
+let minute = today.getMinutes();
+
 let todaysDate = document.querySelector("h2");
-todaysDate.innerHTML = `${day}, ${date} ${month}`;
+todaysDate.innerHTML = `${day}, ${date} ${month} - ${hour}:${String(
+  minute
+).padStart(2, `0`)}`;
 
 // Location intergration
 
@@ -60,8 +65,27 @@ let myLocationButton = document.querySelector("#local-button");
 myLocationButton.addEventListener("click", getPosition);
 
 function useData(response) {
+  console.log(response.data);
   let city = document.querySelector("h1");
   city.innerHTML = response.data.name;
+
+  let warmth = "";
+  if (response.data.main.temp <= 0) {
+    warmth = "freezing";
+  } else if (response.data.main.temp > 0 && response.data.main.temp <= 10) {
+    warmth = "cold";
+  } else if (response.data.main.temp > 10 && response.data.main.temp <= 15) {
+    warmth = "cool";
+  } else if (response.data.main.temp > 15 && response.data.main.temp <= 25) {
+    warmth = "warm";
+  } else {
+    warmth = "hot";
+  }
+
+  let clouds = response.data.weather[0].description;
+
+  let description = document.querySelector("#weather-desc");
+  description.innerHTML = `Today's weather is ${warmth} with ${clouds}`;
 
   let weatherIcon = document.querySelector("#weather-icon");
   if (response.data.clouds.all === 0) {
