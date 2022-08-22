@@ -48,7 +48,6 @@ let apiKey = "fc951b70b430c59535c6efec00d491ee";
 function usePosition(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
-
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
   axios.get(`${apiUrl}`).then(useData);
 
@@ -65,7 +64,8 @@ let myLocationButton = document.querySelector("#local-button");
 myLocationButton.addEventListener("click", getPosition);
 
 function useData(response) {
-  console.log(response.data);
+  // console.log(response.data);
+  resetUnit();
   let city = document.querySelector("h1");
   city.innerHTML = response.data.name;
 
@@ -163,6 +163,7 @@ defaultCity("Amsterdam");
 
 function useNavBar(event, cityName, imgUrl) {
   event.preventDefault();
+
   let cityApi = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
   axios.get(`${cityApi}`).then(useData);
   document.getElementById(
@@ -199,3 +200,11 @@ document
   .addEventListener("click", (event) =>
     useNavBar(event, "New York", "images/New-York.png")
   );
+
+function resetUnit() {
+  document.querySelector("#flexSwitchCheckDefault").checked = false;
+  let tempUnit = document.querySelector(".temp-unit");
+  let degreeLabel = document.querySelector(".form-check-label");
+  tempUnit.innerHTML = "°C";
+  degreeLabel.innerHTML = "°F";
+}
