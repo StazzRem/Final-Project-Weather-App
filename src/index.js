@@ -39,6 +39,9 @@ todaysDate.innerHTML = `${day}, ${date} ${month} - ${hour}:${String(
   minute
 ).padStart(2, `0`)}`;
 
+// creating a variable - contents declared later
+let lastResponse;
+
 // Retreiving correct day from forecast data
 function formatDate(timestamp) {
   let forecastDate = new Date(timestamp * 1000);
@@ -49,7 +52,14 @@ function formatDate(timestamp) {
 }
 
 // Forecast replication function
-function displayForecast(response) {
+function displayForecast(response, unit) {
+  let unitLetter = "";
+  if (unit === "metric") {
+    unitLetter = "C";
+  } else {
+    unitLetter = "F";
+  }
+
   let forecastArray = response.data.daily;
 
   let forecastElement = document.querySelector("#next-five-days");
@@ -70,10 +80,14 @@ function displayForecast(response) {
         />
         <p class="minmax-text">
           <strong>Low / High</strong> <br />
-          <span id="forecast-min">${Math.round(forecastDay.temp.min)}</span
-          ><span id="forecast-degrees">°C</span> /
-          <span id="forecast-max">${Math.round(forecastDay.temp.max)}</span
-          ><span id="forecast-degrees">°C</span>
+          <span id="forecast-min-${index}">${Math.round(
+          forecastDay.temp.min
+        )}</span
+          ><span id="forecast-degrees">°${unitLetter}</span> /
+          <span id="forecast-max-${index}">${Math.round(
+          forecastDay.temp.max
+        )}</span
+          ><span id="forecast-degrees">°${unitLetter}</span>
         </p>
       </div>
           `;
@@ -131,14 +145,19 @@ myLocationButton.addEventListener("click", getPosition);
 
 // Getting forecast city co-ordinates
 
-function getForecast(coordinates) {
-  let forecastAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly&appid=${apiKey}&units=metric`;
-  axios.get(forecastAPI).then(displayForecast);
+function getForecast(coordinates, unit) {
+  let forecastAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly&appid=${apiKey}&units=${unit}`;
+  axios.get(forecastAPI).then((response) => displayForecast(response, unit));
 }
 
 // Displaying weather data
 function useData(response) {
   resetUnit();
+
+  // declaring the contents of this GLOBAL variable
+  lastResponse = response;
+  //
+
   let city = document.querySelector("h1");
   city.innerHTML = response.data.name;
 
@@ -188,7 +207,7 @@ function useData(response) {
   let humid = document.querySelector("#humid-percent");
   humid.innerHTML = Math.round(response.data.main.humidity);
 
-  getForecast(response.data.coord);
+  getForecast(response.data.coord, "metric");
 }
 
 // Changing C and F
@@ -196,11 +215,14 @@ function convertTemp() {
   let tempUnit = document.querySelector(".temp-unit");
   let tempNumber = document.querySelector(".temp-number");
   let degreeLabel = document.querySelector(".form-check-label");
+
   if (tempUnit.innerHTML === "°C") {
+    getForecast(lastResponse.data.coord, "imperial");
     tempNumber.innerHTML = Math.round((tempNumber.innerHTML * 9) / 5 + 32);
     tempUnit.innerHTML = "°F";
     degreeLabel.innerHTML = "°C";
   } else {
+    getForecast(lastResponse.data.coord, "metric");
     tempNumber.innerHTML = Math.round(((tempNumber.innerHTML - 32) * 5) / 9);
     tempUnit.innerHTML = "°C";
     degreeLabel.innerHTML = "°F";
