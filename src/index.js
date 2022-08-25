@@ -259,7 +259,7 @@ document
 document
   .querySelector("#tky-link")
   .addEventListener("click", (event) =>
-    useNavBar(event, "Tokyo", "images/Tokyo-1.png")
+    useNavBar(event, "Tokyo", "images/Tokyo-2.png")
   );
 
 document
