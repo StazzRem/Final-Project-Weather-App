@@ -39,12 +39,78 @@ todaysDate.innerHTML = `${day}, ${date} ${month} - ${hour}:${String(
   minute
 ).padStart(2, `0`)}`;
 
+// Retreiving correct day from forecast data
+function formatDate(timestamp) {
+  let forecastDate = new Date(timestamp * 1000);
+  let upcomingDay = forecastDate.getDay();
+  let upcomingDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return upcomingDays[upcomingDay];
+}
+
+// Forecast replication function
+function displayForecast(response) {
+  let forecastArray = response.data.daily;
+
+  let forecastElement = document.querySelector("#next-five-days");
+
+  let forecastHTML = `<div class="row justify-content-center">`;
+
+  forecastArray.forEach(function (forecastDay, index) {
+    if (index > 0 && index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `
+      <div class="col-2">
+        <h5 class="forecast-day">${formatDate(forecastDay.dt)}</h5>
+        <img
+          src="${forecastIcon(forecastDay.weather[0].main)}"
+          alt="forecast-weather-icon"
+          id="forecast-w-icon"
+        />
+        <p class="minmax-text">
+          <strong>Low / High</strong> <br />
+          <span id="forecast-min">${Math.round(forecastDay.temp.min)}</span
+          ><span id="forecast-degrees">°C</span> /
+          <span id="forecast-max">${Math.round(forecastDay.temp.max)}</span
+          ><span id="forecast-degrees">°C</span>
+        </p>
+      </div>
+          `;
+    }
+  });
+
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+// Applying forecast weather icons
+function forecastIcon(forecastDesc) {
+  // another way of writing else if
+  switch (forecastDesc) {
+    case "Clear":
+      return "images/sun-1.png";
+      break;
+    case "Clouds":
+      return "images/cloud.png";
+      break;
+    case "Rain":
+      return "images/rain2.png";
+      break;
+    default:
+      console.log(forecastDesc);
+      return "images/sun-cloud.png";
+      break;
+  }
+}
+
 // Location intergration
 
 // DO NOT DELETE \\
 let apiKey = "fc951b70b430c59535c6efec00d491ee";
 // DO NOT DELETE \\
 
+// Using current location
 function usePosition(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
@@ -63,6 +129,14 @@ function getPosition() {
 let myLocationButton = document.querySelector("#local-button");
 myLocationButton.addEventListener("click", getPosition);
 
+// Getting forecast city co-ordinates
+
+function getForecast(coordinates) {
+  let forecastAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&exclude=minutely,hourly&appid=${apiKey}&units=metric`;
+  axios.get(forecastAPI).then(displayForecast);
+}
+
+// Displaying weather data
 function useData(response) {
   resetUnit();
   let city = document.querySelector("h1");
@@ -113,8 +187,11 @@ function useData(response) {
 
   let humid = document.querySelector("#humid-percent");
   humid.innerHTML = Math.round(response.data.main.humidity);
+
+  getForecast(response.data.coord);
 }
 
+// Changing C and F
 function convertTemp() {
   let tempUnit = document.querySelector(".temp-unit");
   let tempNumber = document.querySelector(".temp-number");
@@ -133,6 +210,7 @@ function convertTemp() {
 let tempSwitch = document.querySelector("#flexSwitchCheckDefault");
 tempSwitch.addEventListener("click", convertTemp);
 
+// City search including background
 function getCity(event) {
   event.preventDefault();
   let newCity = document.querySelector("#city-search");
@@ -147,6 +225,7 @@ function getCity(event) {
 let citySearch = document.querySelector("#search-bar");
 citySearch.addEventListener("submit", getCity);
 
+// Introducing a default city
 function defaultCity(city) {
   let defaultUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
   axios.get(defaultUrl).then(useData);
@@ -154,6 +233,7 @@ function defaultCity(city) {
 
 defaultCity("Amsterdam");
 
+// Function attached to the navigation bar including backgrounds
 function useNavBar(event, cityName, imgUrl) {
   event.preventDefault();
 
@@ -194,6 +274,7 @@ document
     useNavBar(event, "New York", "images/New-York.png")
   );
 
+// Fixes a bug with converting the temp and changing cities
 function resetUnit() {
   document.querySelector("#flexSwitchCheckDefault").checked = false;
   let tempUnit = document.querySelector(".temp-unit");
